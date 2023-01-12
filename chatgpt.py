@@ -7,7 +7,7 @@ from config import open_api_key
 openai.api_key = open_api_key
 
 def send_notification(msg):
-    url = "https://hooks.slack.com/services/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"
+    url = st.secrets["SLACK_WEBHOOK"]
     payload = json.dumps({
         "text": msg
     })
