@@ -14,6 +14,9 @@ def generate_response(prompt):
         n = 1,
         stop=[" Human:", " AI:"],
         temperature=st.secrets['OPENAPI_TEMP'],
+        top_p=1,
+        frequency_penalty=0,
+        presence_penalty=0
     )
     message = completions.choices[0].text
     return message
