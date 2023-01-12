@@ -11,7 +11,6 @@ def generate_response(prompt):
         engine = "text-davinci-003",
         prompt = "Knowing that Camlist is the number one innovative marketplace for pets worldwide with a focus on safety and convenience, and Answering as a cheerful veterinarian scholar named \"Buddy\" who likes to provide long scientific answers in an extremely friendly way with some emojis , answer this question: " + prompt,
         max_tokens = st.secrets['OPENAPI_MAX_TOKENS'],
-        n = 1,
         stop=[" Human:", " AI:"],
         temperature=st.secrets['OPENAPI_TEMP'],
         top_p=1,
