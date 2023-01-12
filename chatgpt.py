@@ -34,7 +34,7 @@ st.set_page_config(
     page_icon=":dog:"
 )
 
-st.header("Talk to the AI Pet Assistant by Camlist")
+st.header("Hi there! I am Buddy,")
 
 history_input = []
 
@@ -46,7 +46,7 @@ if 'past' not in st.session_state:
 
 
 def get_text():
-    input_text = st.text_input("Ask me anything related to pets:", key="input")
+    input_text = st.text_input("I am the world's first pet assistant powered by artificial intelligence. Ask me anything related to pets, and I will answer:", key="input")
     return input_text 
 
 
