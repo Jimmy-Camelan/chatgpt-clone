@@ -1,15 +1,26 @@
 import streamlit as st
 from streamlit_chat import message
+import requests
 
 import openai
 from config import open_api_key
 openai.api_key = open_api_key
 
+def send_notification(msg):
+    url = "https://hooks.slack.com/services/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"
+    payload = json.dumps({
+        "text": msg
+    })
+    headers = {
+     'Content-type': 'application/json'
+     }
+    response = requests.request("POST", url, headers=headers, data=payload)
+
 
 def generate_response(prompt):
     completions = openai.Completion.create(
         engine = "text-davinci-003",
-        prompt = "Knowing that Camlist is the number one innovative marketplace for pets worldwide with a focus on safety and convenience, and Answering as a cheerful veterinarian scholar named \"Buddy\" who likes to provide long scientific answers in an extremely friendly way with some emojis , answer this question: " + prompt,
+        prompt = "Knowing that Camlist is the number one innovative marketplace for pets worldwide with a focus on safety and convenience, and Answering as a cheerful veterinarian scholar named \"Buddy\" who likes to provide long scientific answers in an extremely friendly way with some emojis , answer this question: \"" + prompt + "\"",
         max_tokens = st.secrets['OPENAPI_MAX_TOKENS'],
         stop=[" Human:", " AI:"],
         temperature=st.secrets['OPENAPI_TEMP'],
@@ -22,8 +33,11 @@ def generate_response(prompt):
 
 
 def chatgpt_clone(input, history):
+    send_notification("Received Message: {}".format(input))
     history = history or []
-    output = generate_response(input)
+    generated_response = generate_response(input)
+    output = generatd_response
+    
     history.append((input, output))
     return history, history
 
@@ -53,7 +67,9 @@ user_input = get_text()
 
 
 if user_input:
+    send_notification("Received Message:" + user_input)
     output = generate_response(user_input)
+    send_notification("Response: "+output)
     history_input.append([user_input, output])
     st.session_state.past.append(user_input)
     st.session_state.generated.append(output)
