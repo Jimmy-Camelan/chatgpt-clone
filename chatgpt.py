@@ -1,7 +1,6 @@
+
 import streamlit as st
 from streamlit_chat import message
-# from streamlit_javascript import st_javascript
-
 import openai
 from google.cloud import texttospeech
 from google.oauth2 import service_account
@@ -9,16 +8,26 @@ import json
 import os
 from config import open_api_key
 import base64
-openai.api_key = open_api_key
 import re
 
+
+openai.api_key = open_api_key
+
 def get_audio_str(file_name):
+    """
+    [Return] a string Base64 of a binary file
+    [Arguments] file_name path to file 
+    """
     aud_file= open(file_name,"rb")
     aud_data_binary = aud_file.read()
     aud_data = (base64.b64encode(aud_data_binary)).decode('ascii')
     return aud_data
 
 def remove_emojis(data):
+    """
+    [Return] a string stripped from emojies
+    [Arguments] data a string to be stripped
+    """
     emoj = re.compile("["
         u"\U0001F600-\U0001F64F"  # emoticons
         u"\U0001F300-\U0001F5FF"  # symbols & pictographs
@@ -41,6 +50,11 @@ def remove_emojis(data):
                       "]+", re.UNICODE)
     return re.sub(emoj, '', data)
 def google_auth(sa, sa_private_key):
+    """
+    [Return] a Google client with credentils based on the passed params based on supplied credentials
+    [Arguments] sa is the JSON string of the service account
+                sa_private_key is the private key to be added to the service account
+    """
     SA_str = sa
     info = json.loads(SA_str)
     info['private_key'] = sa_private_key
@@ -48,7 +62,12 @@ def google_auth(sa, sa_private_key):
     client = texttospeech.TextToSpeechClient(credentials=credentials)
     return client
 
-def text_to_speech(text_to_convert):
+def text_to_speech(text_to_convert, config={}):
+    """
+    [Return] a google TTS response object
+    [Arguments] text_to_convert
+                config TBD
+    """
     text_to_convert = remove_emojis(text_to_convert)
     sa = os.environ.get('SERVICE_ACCOUNT')
     sa_private_key = os.environ.get('SA_PRIVATE_KEY')
