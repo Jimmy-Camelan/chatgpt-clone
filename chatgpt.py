@@ -9,6 +9,7 @@ import os
 from config import open_api_key
 import base64
 import re
+import requests
 
 
 openai.api_key = open_api_key
