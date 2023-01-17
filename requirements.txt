@@ -2,3 +2,7 @@ openai
 streamlit
 streamlit-chat
 requests
+future==0.18.2
+google-cloud-texttospeech==2.12.3
+google-auth
+streamlit-javascript
